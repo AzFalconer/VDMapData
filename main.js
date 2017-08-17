@@ -68,14 +68,16 @@ function gotData(error, world, meteors){
     .data(meteors.features)
     .enter().append("circle")
       .attr("class", "meteor")
+      .attr("opacity", .5)
       .attr("r", function(d) {return radiusScale(parseInt(d.properties.mass));})
       .attr("fill", function(d) {return color(parseInt(d.properties.mass));})
       //Use .on to popup tooltip div... Not perfect but it works...
       .on("mouseover", function(d) {
+        d3.select(this).style("opacity", .9);
         div.html("Name : " + d.properties.name + "<br> Year: " + parseInt(d.properties.year) + "<br> Mass: " + d.properties.mass/1000 + "kg<br> Class: " + d.properties.recclass)
         .style("opacity", .8).style("left", (d3.event.pageX + 10) + "px").style("top", (d3.event.pageY - 28) + "px");
       })
-      .on("mouseout", function(d) {div.style("opacity", 0).style("left", "0px").style("top", "0px");})
+      .on("mouseout", function(d) {d3.select(this).style("opacity", .5); div.style("opacity", 0).style("left", "0px").style("top", "0px");})
       .attr("transform", function(d) {return ("translate(" + projection([d.geometry.coordinates[0], d.geometry.coordinates[1]]) + ")");});
 }//Close gotData
 });//Close DocumentReady
