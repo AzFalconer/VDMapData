@@ -30,6 +30,13 @@ let projection = d3.geoMercator() //Creates a new projection using Mercator
 let path = d3.geoPath() //Create path using the Mercator projection
   .projection(projection);
 
+let graticule = d3.geoGraticule();
+
+let latLon = svg.append("path")
+        .datum(graticule)
+        .attr("class", "graticule")
+        .attr("d", path);
+
 let radiusScale = d3.scalePow().exponent(.5).range([2, 40]);
 let color = d3.scaleOrdinal(d3.schemeCategory20c);
 
