@@ -11,6 +11,7 @@ let margin = {top: 50, left: 50, right: 50, bottom: 50},
     urlMeteor = 'https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/meteorite-strike-data.json',
     height = 750 - margin.top - margin.bottom,
     width = 1000 - margin.left - margin.right;
+let div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 
 let svg = d3.select("#map")
   .append("svg")
@@ -49,6 +50,7 @@ function gotData(error, world, meteors){
   //Filter out meteors missing coords or mass.
   meteors.features = meteors.features.filter(m => {return m.geometry !== null && m.properties.mass !== null;})
     .sort(massSort) //Sort meteors by mass descending... So large meteors get rendered before smaller ones.
+console.log(meteors.features);
   //Scale meteor circle radius by meteor mass
   radiusScale.domain(d3.extent(meteors.features, function(d) {return Number(d.properties.mass);}));
   //Draw Countries
@@ -65,6 +67,12 @@ function gotData(error, world, meteors){
       .attr("class", "meteor")
       .attr("r", function(d) {return radiusScale(parseInt(d.properties.mass));})
       .attr("fill", function(d) {return color(parseInt(d.properties.mass));})
+      //Use .on to popup tooltip div... Not perfect but it works...
+      .on("mouseover", function(d) {
+        div.html("Name : " + d.properties.name + "<br> Year: " + parseInt(d.properties.year) + "<br> Mass: " + d.properties.mass/1000 + "kg<br> Class: " + d.properties.recclass)
+        .style("opacity", .8).style("left", (d3.event.pageX + 10) + "px").style("top", (d3.event.pageY - 28) + "px");
+      })
+      .on("mouseout", function(d) {div.style("opacity", 0).style("left", "0px").style("top", "0px");})
       .attr("transform", function(d) {return ("translate(" + projection([d.geometry.coordinates[0], d.geometry.coordinates[1]]) + ")");});
 }//Close gotData
 });//Close DocumentReady

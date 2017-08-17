@@ -11,4 +11,5 @@ body {background-color: #515A5A;}
 svg {display: block; margin: 0 auto; background-color: #efefef;}
 .country {fill: grey; stroke: black; stroke-width: 0.5}
 .meteor {fill-opacity: 0.5; stroke: black; stroke-width: 0.5}
+.tooltip {position: absolute; text-align: center; padding: 2px; font-family: $pFont; font-size: 18px; background-color: lightsteelblue; border: 2px solid black; border-radius: 8px; z-index: 1;}
 .footer {position: fixed; bottom: 5px; width: 100%; height: auto; margin-top: 40px; text-align: center; font-family: $pFont;  font-size: 1vw;}
