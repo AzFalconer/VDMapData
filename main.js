@@ -17,12 +17,15 @@ let svg = d3.select("#map")
   .append("svg")
   .attr("height", height + margin.top + margin.bottom)
   .attr("width", width +margin.left + margin.right)
+  .call(d3.zoom().on("zoom", function () {
+    svg.attr("transform", d3.event.transform)
+ }))
   .append("g")
     .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
 let projection = d3.geoMercator() //Creates a new projection using Mercator
   .translate ([width/2,height/2]) //Center it
-  //.scale(150) //Zooms in or out (150 seems to fit best in this case...)
+  .scale(150) //Zooms in or out (150 seems to fit best in this case...)
 
 let path = d3.geoPath() //Create path using the Mercator projection
   .projection(projection);
@@ -50,7 +53,7 @@ function gotData(error, world, meteors){
   //Filter out meteors missing coords or mass.
   meteors.features = meteors.features.filter(m => {return m.geometry !== null && m.properties.mass !== null;})
     .sort(massSort) //Sort meteors by mass descending... So large meteors get rendered before smaller ones.
-console.log(meteors.features);
+
   //Scale meteor circle radius by meteor mass
   radiusScale.domain(d3.extent(meteors.features, function(d) {return Number(d.properties.mass);}));
   //Draw Countries
