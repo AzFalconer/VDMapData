@@ -81,7 +81,8 @@ function gotData(error, world, meteors){
       //Use .on to popup tooltip div... Not perfect but it works...
       .on("mouseover", function(d) {
         d3.select(this).style("opacity", .9);
-        div.html("Name : " + d.properties.name + "<br> Year: " + parseInt(d.properties.year) + "<br> Mass: " + d.properties.mass/1000 + "kg<br> Class: " + d.properties.recclass)
+        //div.html("Name : " + d.properties.name + "<br> Year: " + parseInt(d.properties.year) + "<br> Mass: " + d.properties.mass/1000 + "kg<br> Class: " + d.properties.recclass)
+        div.html(d.properties.name + ",  " + parseInt(d.properties.year) + "<br>" + d.properties.mass/1000 + "kg, " + d.properties.recclass)
         .style("opacity", .8).style("left", (d3.event.pageX + 10) + "px").style("top", (d3.event.pageY - 28) + "px");
       })
       .on("mouseout", function(d) {d3.select(this).style("opacity", .5); div.style("opacity", 0).style("left", "0px").style("top", "0px");})
